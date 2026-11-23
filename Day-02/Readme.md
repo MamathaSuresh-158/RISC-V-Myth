@@ -300,29 +300,25 @@ Explored the PicoRV32 processor source code and firmware files provided in the w
 
 ## 6. Screenshots and Practical Evidence
 
-### 6.1 C Program and Assembly Routine
+### 6.1 RISC-V Assembly Execution
 
-![C Program and Assembly Routine](screenshots/1to9_programs.png)
+![Custom Assembly Program Output](images/custom_1to9_output.png)
 
-### 6.2 RISC-V Assembly Execution
+### 6.2 RISC-V Assembly Disassembly
 
-![Custom Assembly Program Output](screenshots/custom_1to9_output.png)
+![RISC-V Assembly Disassembly](images/riscv_assembly_code.png)
 
-### 6.3 RISC-V Assembly Disassembly
+### 6.3 PicoRV32 RTL Source Code
 
-![RISC-V Assembly Disassembly](screenshots/riscv_assembly_code.png)
+![PicoRV32 Verilog Source](images/picor32.v.png)
 
-### 6.4 PicoRV32 RTL Source Code
+### 6.4 Firmware Hexadecimal File
 
-![PicoRV32 Verilog Source](screenshots/picor32.v.png)
+![Firmware Hex](images/firmware.hex.png)
 
-### 6.5 Firmware Hexadecimal File
+### 6.5 32-bit Firmware Hexadecimal File
 
-![Firmware Hex](screenshots/firmware.hex.png)
-
-### 6.6 32-bit Firmware Hexadecimal File
-
-![Firmware 32-bit Hex](screenshots/firmware32.hex.png)
+![Firmware 32-bit Hex](images/firmware32.hex.png)
 
 ## 7. Key Learnings
 
@@ -343,6 +339,4 @@ Day 2 provided practical understanding of the Application Binary Interface, RISC
 
 The session also introduced PicoRV32 processor RTL and firmware file exploration, providing initial exposure to the relationship between software, assembly instructions and processor hardware.
 
----
 
-**Day 2 – Completed**
