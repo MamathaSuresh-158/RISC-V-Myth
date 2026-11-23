@@ -1,86 +1,228 @@
 
-# Day 1 – Introduction to RISC-V Architecture
+# Day 1 – Introduction to RISC-V Architecture and Toolchain
 
-## Overview
-Day 1 focused on understanding RISC-V architecture, software-to-hardware execution flow, RISC-V toolchain, assembly language, Spike simulation, and integer number representation.
+## 1. Overview
 
-## Topics Covered
+Day 1 focused on understanding the fundamentals of RISC-V architecture, software-to-hardware execution flow, RISC-V instruction set architecture, C program compilation, cross-compilation, assembly code analysis, Spike simulation and integer number representation.
 
-### 1. Introduction to RISC-V Architecture
-- Software-to-hardware execution flow.
-- Role of Operating System, Compiler and Assembler.
-- Introduction to Instruction Set Architecture (ISA).
-- RISC-V instruction extensions:
-  - RV64I – Base Integer Instruction Set
-  - RV64M – Multiplication and Division Extension
-  - RV64F – Single Precision Floating Point
-  - RV64D – Double Precision Floating Point
-- Pseudo-instructions: `mv`, `li`, `ret`.
+The session included practical implementation of C programs and execution using the RISC-V toolchain.
 
-### 2. C Program Compilation and Execution
+## 2. Topics Covered
 
-Created a C program to calculate the sum of numbers from 1 to N.
+### 2.1 Software-to-Hardware Execution Flow
 
-**Commands:**
+Studied how an application program is converted into machine-understandable instructions.
+
+The major components involved are:
+
+1. **Operating System (OS):**
+   - Handles I/O operations.
+   - Allocates memory.
+   - Performs low-level system functions.
+
+2. **Compiler:**
+   - Converts program code into instructions corresponding to the target architecture.
+   - Generates architecture-specific instructions.
+
+3. **Assembler:**
+   - Converts assembly instructions into binary machine code.
+
+4. **Hardware:**
+   - Executes the generated machine instructions.
+
+### 2.2 Introduction to RISC-V ISA
+
+Studied RISC-V Instruction Set Architecture (ISA) and its extensions.
+
+- **RV64I:** Base Integer Instruction Set.
+- **RV64M:** Multiplication and Division Extension.
+- **RV64F:** Single-Precision Floating-Point Extension.
+- **RV64D:** Double-Precision Floating-Point Extension.
+
+Also studied:
+- RV64IM – Integer and multiplication/division extensions.
+- RV64IMFD – Integer, multiplication/division and floating-point extensions.
+- Pseudo-instructions such as `mv`, `li` and `ret`.
+
+## 3. Practical Implementation
+
+### 3.1 Program 1: Addition of First Five Numbers
+
+**File:** `sum1ton.c`
+
+**Objective:** To calculate the sum of numbers from 1 to N using a for loop.
+
+**Source Code:**
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int i, sum = 0, n = 5;
+
+    for(i = 0; i <= n; ++i)
+    {
+        sum += i;
+    }
+
+    printf("Sum is: %d\n", sum);
+
+    return 0;
+}
+```
+
+**Compilation and Execution using GCC:**
+
 ```bash
-leafpad sum1ton.c &
 gcc sum1ton.c
 ./a.out
-cat sum1ton.c
 ```
 
 **Output:**
+
 ```text
 Sum is: 15
-Sum is: 5050
 ```
 
-### 3. RISC-V Cross Compilation
-
-Compiled the C program using the RISC-V GCC cross-compiler.
+**RISC-V Cross Compilation:**
 
 ```bash
 riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
 ```
 
-### 4. Assembly Code Generation
-
-Generated and examined RISC-V assembly instructions using `objdump`.
-
-```bash
-riscv64-unknown-elf-objdump -d sum1ton.o
-```
-
-To view the assembly code page by page:
-
-```bash
-riscv64-unknown-elf-objdump -d sum1ton.o | less
-```
-
-Instructions studied:
-- `addi` – Add Immediate
-- `lui` – Load Upper Immediate
-- `ld` – Load Double Word
-- `sd` – Store Double Word
-- `jal` – Jump and Link
-- `ret` – Return
-
-### 5. Execution Using Spike Simulator
-
-Executed the compiled RISC-V program using Spike.
+**Execution using Spike:**
 
 ```bash
 spike pk sum1ton.o
 ```
 
 **Output:**
+
 ```text
-Sum is: 5050
+Sum is: 15
 ```
 
-### 6. Spike Debugging
+**Screenshot:**
 
-Started Spike in debugging mode.
+![Addition of First Five Numbers](screenshots/Addition_of_first_five_numbers.png)
+
+### 3.2 Program 2: Finding Maximum Unsigned 64-bit Integer
+
+**File:** `unsignedHighest.c`
+
+**Objective:** To calculate and display the maximum value representable using an unsigned 64-bit integer.
+
+**Source Code:**
+
+```c
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+    unsigned long long int max =
+        (unsigned long long int)(pow(2,64) - 1);
+
+    printf("Highest Number is %llu\n", max);
+
+    return 0;
+}
+```
+
+**RISC-V Cross Compilation:**
+
+```bash
+riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o unsignedHighest.o unsignedHighest.c
+```
+
+**Execution using Spike:**
+
+```bash
+spike pk unsignedHighest.o
+```
+
+**Expected Mathematical Maximum:**
+
+```text
+18446744073709551615
+```
+
+**Screenshot:**
+
+![Finding Maximum Unsigned Integer](screenshots/finding_max_unsigned.png)
+
+### 3.3 Program 3: Finding Maximum and Minimum Signed Integer
+
+**File:** `signedHighest.c`
+
+**Objective:** To understand signed integer representation and the range of signed integers using 2's complement representation.
+
+**Compilation:**
+
+```bash
+riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o signedHighest.o signedHighest.c
+```
+
+**Execution using Spike:**
+
+```bash
+spike pk signedHighest.o
+```
+
+**Observed Output:**
+
+```text
+Highest Number is 2147483647
+Lowest Number is -2147483648
+```
+
+**Screenshot:**
+
+![Signed Integer Experiment](screenshots/signed_output.png)
+
+## 4. RISC-V Assembly Code Analysis
+
+Generated and examined RISC-V assembly instructions using the GNU Object Dump utility.
+
+**Command:**
+
+```bash
+riscv64-unknown-elf-objdump -d sum1ton.o
+```
+
+To view assembly code page by page:
+
+```bash
+riscv64-unknown-elf-objdump -d sum1ton.o | less
+```
+
+Instructions studied:
+
+| Instruction | Description |
+|---|---|
+| `addi` | Add Immediate |
+| `lui` | Load Upper Immediate |
+| `ld` | Load Double Word |
+| `sd` | Store Double Word |
+| `jal` | Jump and Link |
+| `ret` | Return |
+
+**Screenshot:**
+
+![RISC-V Assembly Analysis](screenshots/riscv_main_architecture.png)
+
+## 5. Execution and Debugging Using Spike
+
+Executed the compiled RISC-V program using the Spike RISC-V ISA simulator.
+
+**Normal Execution:**
+
+```bash
+spike pk sum1ton.o
+```
+
+**Debugging Mode:**
 
 ```bash
 spike -d pk sum1ton.o
@@ -100,51 +242,50 @@ Learned to:
 - Observe instruction execution.
 - Understand register operations.
 
-### 7. Integer Number Representation
+**Screenshot:**
 
-Studied 64-bit signed and unsigned integer representation.
+![Spike Debugging](screenshots/debug.png)
 
-**Unsigned Integer:**
+## 6. Integer Number Representation
+
+Studied signed and unsigned integer representation in a 64-bit RISC-V architecture.
+
+### 6.1 Unsigned Integer Representation
+
 - Represents non-negative numbers.
-- Range: 0 to 2^64 - 1.
-- Total possible patterns: 2^64.
+- Total possible patterns = 2^64.
+- Minimum value = 0.
+- Maximum value = 2^64 - 1.
 
-**Signed Integer:**
-- Uses 2's complement representation.
-- MSB = 0 indicates a positive number.
-- MSB = 1 indicates a negative number.
-- Range: -2^63 to 2^63 - 1.
+**Range:**
 
-Also studied:
-- LSB and MSB.
-- Bit, Byte, Word and Double Word.
+0 to 18446744073709551615
+
+### 6.2 Signed Integer Representation
+
+- Uses the 2's complement technique.
+- MSB = 0 represents positive numbers.
+- MSB = 1 represents negative numbers.
+- Minimum value = -2^63.
+- Maximum value = 2^63 - 1.
+
+**Range:**
+
+-9223372036854775808 to 9223372036854775807
+
+### 6.3 Important Concepts
+
+- LSB – Least Significant Bit.
+- MSB – Most Significant Bit.
+- 1 Byte = 8 Bits.
+- 1 Word = 4 Bytes.
+- 1 Double Word = 8 Bytes.
+- Total number of patterns = 2^n, where n is the number of bits.
 - Integer overflow.
-- 2's complement conversion.
+- 2's complement representation.
 
-### 8. Signed and Unsigned Integer Experiment
+## 7. Tools and Technologies Used
 
-Created separate C programs to understand signed and unsigned integer limits.
-
-**Unsigned compilation:**
-```bash
-riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o unsignedHighest.o unsignedHighest.c
-spike pk unsignedHighest.o
-```
-
-**Signed compilation:**
-```bash
-riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o signedHighest.o signedHighest.c
-spike pk signedHighest.o
-```
-
-**Observed Results:**
-
-| Type | Highest Number | Lowest Number |
-|---|---:|---:|
-| Unsigned 64-bit | 18446744073709551615 | 0 |
-| Signed 64-bit | 9223372036854775807 | -9223372036854775808 |
-
-## Tools Used
 - Ubuntu Linux
 - GCC Compiler
 - RISC-V GCC Cross Compiler
@@ -153,47 +294,37 @@ spike pk signedHighest.o
 - C Programming
 - Linux Terminal
 
-## Practical Implementation
+## 8. Practical Work Summary
 
-1. C program compilation and execution.
-2. RISC-V cross-compilation.
-3. Assembly code generation and analysis.
-4. RISC-V program execution using Spike.
-5. Debugging using Spike.
-6. Register and Program Counter inspection.
-7. Signed and unsigned integer experiments.
+| Sl. No. | Experiment | Status |
+|---|---|---|
+| 1 | C program compilation and execution | Completed |
+| 2 | Addition of first five numbers | Completed |
+| 3 | RISC-V cross-compilation | Completed |
+| 4 | Assembly code generation and analysis | Completed |
+| 5 | Execution using Spike simulator | Completed |
+| 6 | Spike debugging and register inspection | Practiced |
+| 7 | Unsigned integer representation | Completed |
+| 8 | Signed integer representation | Completed |
 
-## Screenshots
+## 9. Key Learnings
 
-### 1. C Program Execution
-![C Program Execution](screenshots/addition_output.png)
-
-### 2. RISC-V Assembly and Disassembly
-![RISC-V Assembly](screenshots/riscv_main_architecture.png)
-
-### 3. Spike Debugging
-![Spike Debugging](screenshots/debug.png)
-
-### 4. Unsigned Integer Representation
-![Unsigned Integer](screenshots/unsigned_output.png)
-
-### 5. Signed Integer Representation
-![Signed Integer](screenshots/signed_output.png)
-
-## Key Learnings
 - Understood the fundamentals of RISC-V architecture.
 - Learned the software-to-hardware execution flow.
-- Practiced C compilation and RISC-V cross-compilation.
-- Understood assembly instruction generation.
-- Executed programs using the Spike simulator.
-- Explored debugging and register inspection.
+- Practiced C program compilation using GCC.
+- Learned RISC-V cross-compilation.
+- Understood assembly instruction generation and analysis.
+- Executed RISC-V programs using the Spike simulator.
+- Explored debugging using Program Counter and register inspection.
 - Understood signed and unsigned integer representation.
+- Learned about 64-bit integer ranges and 2's complement representation.
 
-## Conclusion
+## 10. Conclusion
 
-Day 1 provided practical exposure to RISC-V architecture and its toolchain. Learned how C programs are compiled into RISC-V instructions, executed using Spike, and analyzed through assembly-level debugging.
+Day 1 provided a foundation in RISC-V architecture and its software toolchain. Through practical experiments, I learned how to compile C programs, generate and analyze RISC-V assembly instructions, execute programs using the Spike simulator and understand signed and unsigned integer representation in a 64-bit architecture.
 
 ---
 
-**Status: Day 1 Completed**
+**Day 1 – Completed**
+
 
