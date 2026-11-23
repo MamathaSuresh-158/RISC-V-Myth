@@ -105,7 +105,7 @@ Sum is: 15
 
 **Screenshot:**
 
-![Addition of First Five Numbers](screenshots/Addition_of_first_five_numbers.png)
+![Addition of First Five Numbers](images/addition_output.png)
 
 ### 3.2 Program 2: Finding Maximum Unsigned 64-bit Integer
 
@@ -150,7 +150,7 @@ spike pk unsignedHighest.o
 
 **Screenshot:**
 
-![Finding Maximum Unsigned Integer](screenshots/finding_max_unsigned.png)
+![Finding Maximum Unsigned Integer](images/unsigned_output.png)
 
 ### 3.3 Program 3: Finding Maximum and Minimum Signed Integer
 
@@ -179,7 +179,7 @@ Lowest Number is -2147483648
 
 **Screenshot:**
 
-![Signed Integer Experiment](screenshots/signed_output.png)
+![Signed Integer Experiment](images/signed_output.png)
 
 ## 4. RISC-V Assembly Code Analysis
 
@@ -210,7 +210,7 @@ Instructions studied:
 
 **Screenshot:**
 
-![RISC-V Assembly Analysis](screenshots/riscv_main_architecture.png)
+![RISC-V Assembly Analysis](images/riscv_main_architecture.png)
 
 ## 5. Execution and Debugging Using Spike
 
@@ -244,7 +244,7 @@ Learned to:
 
 **Screenshot:**
 
-![Spike Debugging](screenshots/debug.png)
+![Spike Debugging](images/debug.png)
 
 ## 6. Integer Number Representation
 
@@ -323,8 +323,6 @@ Studied signed and unsigned integer representation in a 64-bit RISC-V architectu
 
 Day 1 provided a foundation in RISC-V architecture and its software toolchain. Through practical experiments, I learned how to compile C programs, generate and analyze RISC-V assembly instructions, execute programs using the Spike simulator and understand signed and unsigned integer representation in a 64-bit architecture.
 
----
 
-**Day 1 – Completed**
 
 
